@@ -40,14 +40,25 @@ export default class App extends Component {
 
   formSubmitHandler = data => {
     const { contacts } = this.state;
-    const { name } = data;
+    const { name, number } = data;
 
     const existingName = contacts.find(
       el => el.name.toLowerCase() === name.toLowerCase()
     );
 
+    const existingNumber = contacts.find(
+      el => el.number.toLowerCase() === number.toLowerCase()
+    );
+
     if (existingName) {
       Notiflix.Notify.failure(`"${name}" allready in contact list`);
+      return;
+    }
+
+    if (existingNumber) {
+      Notiflix.Notify.failure(
+        `You allready have contact "${existingNumber.name}" with same number "${number}" in contact list`
+      );
       return;
     }
 
@@ -68,6 +79,20 @@ export default class App extends Component {
   changeFilter = event => {
     this.setState({ filter: event.currentTarget.value });
   };
+
+  componentDidMount() {
+    const localContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (localContacts) {
+      this.setState({ contacts: localContacts });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const { contacts, filter } = this.state;
