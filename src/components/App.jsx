@@ -51,7 +51,7 @@ export default class App extends Component {
     );
 
     if (existingName) {
-      Notiflix.Notify.failure(`"${name}" allready in contact list`);
+      Notiflix.Notify.failure(`"${name}" is allready in contact list`);
       return;
     }
 
