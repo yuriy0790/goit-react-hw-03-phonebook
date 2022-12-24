@@ -46,9 +46,7 @@ export default class App extends Component {
       el => el.name.toLowerCase() === name.toLowerCase()
     );
 
-    const existingNumber = contacts.find(
-      el => el.number.toLowerCase() === number.toLowerCase()
-    );
+    const existingNumber = contacts.find(el => el.number === number);
 
     if (existingName) {
       Notiflix.Notify.failure(`"${name}" is allready in contact list`);
